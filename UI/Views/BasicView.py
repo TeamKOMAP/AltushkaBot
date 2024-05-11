@@ -37,7 +37,7 @@ class BasicView(View, AbstractView):
 
             self.disable_all_items()
             if self.__message is not None and isinstance(self.__message, Message):
-                await self.__message.edit(f"{emojis.MUSIC} - The buttons in this message have been disabled due timeout", view=self)
+                await self.__message.edit(f"{emojis.MUSIC} - Кнопки в этом сообщении были отключены по истечении времени", view=self)
         except Exception as e:
             print(f'[ERROR EDITING MESSAGE] -> {e}')
 

@@ -65,7 +65,7 @@ class MusicCog(Cog):
         except Exception as e:
             print(f'[ERROR IN COG] -> {e}')
 
-    @command(name="volume", help=helper.CHANGE_VOLUME, description=helper.CHANGE_VOLUME_LONG, aliases=['v'])
+    @command(name="volume", help=helper.CHANGE_VOLUME, description=helper.CHANGE_VOLUME_LONG, aliases=['v', 'vol'])
     async def volume(self, ctx: Context, *args) -> None:
         try:
             controller = VolumeHandler(ctx, self.__bot)
@@ -84,7 +84,7 @@ class MusicCog(Cog):
         except Exception as e:
             print(f'[ERROR IN COG] -> {e}')
 
-    @command(name="queue", help=helper.HELP_QUEUE, description=helper.HELP_QUEUE_LONG, aliases=['q', 'fila', 'musicas'])
+    @command(name="queue", help=helper.HELP_QUEUE, description=helper.HELP_QUEUE_LONG, aliases=['q'])
     async def queue(self, ctx: Context, *args) -> None:
         try:
             pageNumber = " ".join(args)
@@ -124,7 +124,7 @@ class MusicCog(Cog):
         except Exception as e:
             print(f'[ERROR IN COG] -> {e}')
 
-    @command(name='stop', help=helper.HELP_STOP, description=helper.HELP_STOP_LONG, aliases=['parar'])
+    @command(name='stop', help=helper.HELP_STOP, description=helper.HELP_STOP_LONG, aliases=['st'])
     async def stop(self, ctx: Context) -> None:
         try:
             controller = StopHandler(ctx, self.__bot)
@@ -137,7 +137,7 @@ class MusicCog(Cog):
         except Exception as e:
             print(f'[ERROR IN COG] -> {e}')
 
-    @command(name='pause', help=helper.HELP_PAUSE, description=helper.HELP_PAUSE_LONG, aliases=['pare'])
+    @command(name='pause', help=helper.HELP_PAUSE, description=helper.HELP_PAUSE_LONG, aliases=['paus'])
     async def pause(self, ctx: Context) -> None:
         try:
             controller = PauseHandler(ctx, self.__bot)
@@ -150,7 +150,7 @@ class MusicCog(Cog):
         except Exception as e:
             print(f'[ERROR IN COG] -> {e}')
 
-    @command(name='resume', help=helper.HELP_RESUME, description=helper.HELP_RESUME_LONG, aliases=['despausar'])
+    @command(name='resume', help=helper.HELP_RESUME, description=helper.HELP_RESUME_LONG, aliases=['continue'])
     async def resume(self, ctx: Context) -> None:
         try:
             controller = ResumeHandler(ctx, self.__bot)
@@ -242,7 +242,7 @@ class MusicCog(Cog):
         except Exception as e:
             print(f'[ERROR IN COG] -> {e}')
 
-    @command(name='move', help=helper.HELP_MOVE, description=helper.HELP_MOVE_LONG, aliases=['m', 'mover'])
+    @command(name='move', help=helper.HELP_MOVE, description=helper.HELP_MOVE_LONG, aliases=['m'])
     async def move(self, ctx: Context, pos1, pos2='1') -> None:
         try:
             controller = MoveHandler(ctx, self.__bot)
@@ -268,7 +268,7 @@ class MusicCog(Cog):
         except Exception as e:
             print(f'[ERROR IN COG] -> {e}')
 
-    @command(name='reset', help=helper.HELP_RESET, description=helper.HELP_RESET_LONG, aliases=['resetar'])
+    @command(name='reset', help=helper.HELP_RESET, description=helper.HELP_RESET_LONG, aliases=['reseter'])
     async def reset(self, ctx: Context) -> None:
         try:
             controller = ResetHandler(ctx, self.__bot)

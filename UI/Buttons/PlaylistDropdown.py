@@ -30,7 +30,7 @@ class PlaylistDropdown(Select, AbstractItem):
         for x in range(len(songsNames)):
             selectOptions.append(SelectOption(label=songsNames[x], value=values[x]))
 
-        super().__init__(placeholder="Select one music to play now, may be outdated",
+        super().__init__(placeholder="Выбери трек для воспроизведения, возможно устарело",
                          min_values=1, max_values=1, options=selectOptions)
 
         self.__playlist = playlist

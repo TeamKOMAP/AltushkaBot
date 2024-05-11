@@ -23,7 +23,7 @@ class AConfigs(Singleton):
 
             self.BOT_PREFIX = os.getenv('BOT_PREFIX', '!')
 
-            if self.BOT_PREFIX == 'Your_Wanted_Prefix_For_Vulkan':
+            if self.BOT_PREFIX == 'Your_Wanted_Prefix':
                 self.BOT_PREFIX = '!'
             
             self.BOT_TOKEN = os.getenv('BOT_TOKEN')

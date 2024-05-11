@@ -45,7 +45,7 @@ class RandomCog(Cog):
         embed = self.__embeds.CARA_COROA(result)
         await ctx.send(embed=embed)
 
-    @command(name='choose', help=helper.HELP_CHOOSE, description=helper.HELP_CHOOSE_LONG, aliases=['escolha', 'pick'])
+    @command(name='choose', help=helper.HELP_CHOOSE, description=helper.HELP_CHOOSE_LONG, aliases=['pick'])
     async def choose(self, ctx, *args: str) -> None:
         try:
             user_input = " ".join(args)

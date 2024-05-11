@@ -34,7 +34,7 @@ class ControlCog(Cog):
                     txt = command.description if command.description else command.help
 
                     embedhelp = Embed(
-                        title=f'**Description of {command_help}** command',
+                        title=f'**Информация о команде {command_help}**',
                         description=txt,
                         colour=self.__colors.BLUE
                     )
@@ -44,7 +44,7 @@ class ControlCog(Cog):
 
             embedhelp = Embed(
                 title='Все команды!',
-                description=f'Command {command_help} do not exists, type {self.__config.BOT_PREFIX}help to see all commands',
+                description=f'Команды {command_help} не существует, используй {self.__config.BOT_PREFIX}help для просмотра всех команд',
                 colour=self.__colors.BLACK
             )
 
@@ -67,9 +67,9 @@ class ControlCog(Cog):
                     help_help += f'**{command}** - {command.help}\n'
 
             helptxt = f'\n{help_music}\n{help_help}\n{help_random}'
-            helptxt += f'\n\nType {self.__config.BOT_PREFIX}help "command" for more information about the command chosen'
+            helptxt += f'\n\nИспользуй {self.__config.BOT_PREFIX}help "command" для подробной информации о конкретной команде'
             embedhelp = Embed(
-                title=f'**Available Commands of {self.__bot.user.name}**',
+                title=f'**{self.__bot.user.name} знает эти команды**',
                 description=helptxt,
                 colour=self.__colors.BLUE
             )

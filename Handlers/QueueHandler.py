@@ -68,7 +68,7 @@ class QueueHandler(AbstractHandler):
                                                 for song in allSongs]))
             total_songs = len(playlist.getSongs())
 
-            text = f'📜 Queue length: {total_songs} | Page Number: {pageNumber+1}/{len(songsPages)} | ⌛ Duration: `{total_time}` downloaded  \n\n'
+            text = f'📜 Размер очереди: {total_songs} | Номер страницы: {pageNumber+1}/{len(songsPages)} | ⌛ Длительность: `{total_time}` загружено  \n\n'
 
             # To work get the correct index of all songs
             startIndex = (pageNumber * self.config.MAX_SONGS_IN_PAGE) + 1
@@ -103,12 +103,12 @@ class QueueHandler(AbstractHandler):
         if pageNumber > 0:
             prevPageNumber = pageNumber - 1
             buttons.append(CallbackButton(self.bot, self.run, AEmojis().BACK, self.ctx.channel,
-                                          self.guild.id, MessagesCategory.QUEUE, "Prev Page", pageNumber=prevPageNumber))
+                                          self.guild.id, MessagesCategory.QUEUE, "Предыдущая страница", pageNumber=prevPageNumber))
 
         if pageNumber < len(songsPages) - 1:
             nextPageNumber = pageNumber + 1
             buttons.append(CallbackButton(self.bot, self.run, AEmojis().SKIP, self.ctx.channel,
-                                          self.guild.id, MessagesCategory.QUEUE, "Next Page", pageNumber=nextPageNumber))
+                                          self.guild.id, MessagesCategory.QUEUE, "Следующая страница", pageNumber=nextPageNumber))
 
         return buttons
 
