@@ -1,13 +1,8 @@
 from typing import List
 from discord.ext.commands import Context
 from discord import Message, Embed
-from Config.Singleton import Singleton
+from Configs.Singleton import Singleton
 from Music.AltushkaBot import AltushkaBot
-
-
-class AltushkaBot:
-    pass
-
 
 class Cleaner(Singleton):
     def __init__(self, bot: AltushkaBot = None) -> None:

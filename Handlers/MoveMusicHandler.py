@@ -1,20 +1,22 @@
 from typing import Union
-from discord.ext.commands import Context
-from Music.AltushkaBot import AltushkaBot
+from Configs.Exceptions import BadCommandUsage, InvalidInput, NumberRequired, UnknownError, AltError
 from Handlers.AbstractHandler import AbstractHandler
-from Handlers.HandlerReply import HandlerResponse
-from Configs.Exceptions import BadCommandUsage, AltError, InvalidInput, NumberRequired, UnknownError
-from Music.Playlist import Playlist
-from typing import Union
+from discord.ext.commands import Context
 from discord import Interaction
+from Handlers.HandlerReply import HandlerResponse
+from Music.Playlist import Playlist
+from Music.AltushkaBot import AltushkaBot
 from Parallelism.AbstractProcessMngr import AbstractPlayersManager
+from Parallelism.Commands import ACommands, ACommandsType
 
 
-class MoveHandler(AbstractHandler):
+class MoveMusicHandler(AbstractHandler):
+    """Переместите музыку из определенной позиции и воспроизведите сразу"""
+
     def __init__(self, ctx: Union[Context, Interaction], bot: AltushkaBot) -> None:
         super().__init__(ctx, bot)
 
-    async def run(self, pos1: str, pos2: str) -> HandlerResponse:
+    async def run(self, musicPos: str) -> HandlerResponse:
         playersManager: AbstractPlayersManager = self.config.getPlayersManager()
         if not playersManager.verifyIfPlayerExists(self.guild):
             embed = self.embeds.NOT_PLAYING()
@@ -24,52 +26,53 @@ class MoveHandler(AbstractHandler):
         playerLock = playersManager.getPlayerLock(self.guild)
         acquired = playerLock.acquire(timeout=self.config.ACQUIRE_LOCK_TIMEOUT)
         if acquired:
-            error = self.__validateInput(pos1, pos2)
+            # попробует преобразовать input в int
+            error = self.__validateInput(musicPos)
             if error:
                 embed = self.embeds.ERROR_EMBED(error.message)
                 playerLock.release()
                 return HandlerResponse(self.ctx, embed, error)
 
+            # очистка input
             playlist = playersManager.getPlayerPlaylist(self.guild)
-            pos1, pos2 = self.__sanitizeInput(playlist, pos1, pos2)
+            musicPos = self.__sanitizeInput(playlist, musicPos)
 
-            if not playlist.validate_position(pos1) or not playlist.validate_position(pos2):
+            # подтверждение позиции
+            if not playlist.validate_position(musicPos):
                 error = InvalidInput()
                 embed = self.embeds.PLAYLIST_RANGE_ERROR()
                 playerLock.release()
                 return HandlerResponse(self.ctx, embed, error)
             try:
-                song = playlist.move_songs(pos1, pos2)
+                # Переместить выбранную песню
+                playlist.move_songs(musicPos, 1)
 
-                song_name = song.title if song.title else song.identifier
-                embed = self.embeds.SONG_MOVED(song_name, pos1, pos2)
-                playerLock.release()
-                return HandlerResponse(self.ctx, embed)
+                # Отправка команды плееру для пропуска музыку
+                command = ACommands(ACommandsType.SKIP, None)
+                await playersManager.sendCommandToPlayer(command, self.guild, self.ctx)
+
+                return HandlerResponse(self.ctx)
             except:
-                # Release the acquired Lock
-                playerLock.release()
                 embed = self.embeds.ERROR_MOVING()
                 error = UnknownError()
                 return HandlerResponse(self.ctx, embed, error)
+            finally:
+                playerLock.release()
         else:
             playersManager.resetPlayer(self.guild, self.ctx)
             embed = self.embeds.PLAYER_RESTARTED()
             return HandlerResponse(self.ctx, embed)
 
-    def __validateInput(self, pos1: str, pos2: str) -> Union[AltError, None]:
+    def __validateInput(self, position: str) -> Union[AltError, None]:
         try:
-            pos1 = int(pos1)
-            pos2 = int(pos2)
+            position = int(position)
         except:
             return NumberRequired(self.messages.ERROR_NUMBER)
 
-    def __sanitizeInput(self, playlist: Playlist, pos1: int, pos2: int) -> tuple:
-        pos1 = int(pos1)
-        pos2 = int(pos2)
+    def __sanitizeInput(self, playlist: Playlist, position: int) -> int:
+        position = int(position)
 
-        if pos1 == -1:
-            pos1 = len(playlist.getSongs())
-        if pos2 == -1:
-            pos2 = len(playlist.getSongs())
+        if position == -1:
+            position = len(playlist.getSongs())
 
-        return pos1, pos2
+        return position

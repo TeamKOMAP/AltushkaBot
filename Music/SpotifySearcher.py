@@ -1,9 +1,9 @@
 from spotipy import Spotify
 from spotipy.oauth2 import SpotifyClientCredentials
 from spotipy.exceptions import SpotifyException
-from Config.Exceptions import SpotifyError
-from Config.Configs import AConfigs
-from Config.Messages import SpotifyMessages
+from Configs.Exceptions import SpotifyError
+from Configs.Configs import AConfigs
+from Configs.Messages import SpotifyMessages
 
 
 class SpotifySearch():
@@ -48,7 +48,7 @@ class SpotifySearch():
         results = self.__api.album_tracks(code)
         musics = results['items']
 
-        while results['next']:  # Get the next pages
+        while results['next']:  # Получить следующие страницы
             results = self.__api.next(results)
             musics.extend(results['items'])
 
@@ -64,7 +64,7 @@ class SpotifySearch():
         results = self.__api.playlist_items(code)
         itens = results['items']
 
-        while results['next']:  # Load the next pages
+        while results['next']:  # Загрузить следующие страницы
             results = self.__api.next(results)
             itens.extend(results['items'])
 

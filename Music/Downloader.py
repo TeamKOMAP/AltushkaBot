@@ -1,11 +1,11 @@
 import asyncio
 from typing import List
-from Config.Configs import AConfigs
+from Configs.Configs import AConfigs
 from yt_dlp import YoutubeDL, DownloadError
 from concurrent.futures import ThreadPoolExecutor
 from Music.Song import Song
 from Utils.Utils import Utils, run_async
-from Config.Exceptions import DownloadingError
+from Configs.Exceptions import DownloadingError
 
 
 class Downloader:
@@ -55,7 +55,7 @@ class Downloader:
 
             song.finish_down(song_info)
             return song
-        # Convert yt_dlp error to my own error
+        # конвертация yt_dlp error в свою error
         except DownloadError as e:
             raise DownloadingError(e.msg)
 
@@ -64,12 +64,12 @@ class Downloader:
         if url == '':
             return []
 
-        if Utils.is_url(url):  # If Url
+        if Utils.is_url(url):  # если url
             options = Downloader.__YDL_OPTIONS_EXTRACT
             with YoutubeDL(options) as ydl:
                 try:
                     extracted_info = ydl.extract_info(url, download=False)
-                    # Some links doesn't extract unless extract_flat key is passed as False in options
+                    # Некоторые ссылки не извлекаются, если в параметрах для ключа Extract_Flat не указано значение False.
                     if self.__failed_to_extract(extracted_info):
                         extracted_info = self.__get_forced_extracted_info(url)
 
@@ -82,10 +82,10 @@ class Downloader:
                             songs.append(self.__BASE_URL.format(song['id']))
                         return songs
 
-                    else:  # Failed to extract the songs
+                    else:  # Не удалось извлечь
                         print(f'DEVELOPER NOTE -> Failed to Extract URL {url}')
                         return []
-                # Convert the yt_dlp download error to own error
+                # конвертация yt_dlp error в свою error
                 except DownloadError:
                     raise DownloadingError()
                 except Exception as e:
@@ -112,12 +112,12 @@ class Downloader:
                 result = ydl.extract_info(url, download=False)
 
                 return result
-            except Exception as e:  # Any type of error in download
+            except Exception as e:  # любая ошибка при загрузке
                 print(f'DEVELOPER NOTE -> Error Downloading {url} -> {e}')
                 return None
 
     async def download_song(self, song: Song) -> None:
-        if song.source is not None:  # If Music already preloaded
+        if song.source is not None:  # если музыка уже загружена
             return None
 
         def __download_func(song: Song) -> None:
@@ -131,7 +131,7 @@ class Downloader:
             except Exception as e:
                 print(f'DEVELOPER NOTE -> Error Downloading {song.identifier} -> {e}')
 
-        # Creating a loop task to download each song
+        # создание циклической задачи для загрузки каждой песни
         loop = asyncio.get_event_loop()
         executor = ThreadPoolExecutor(max_workers=self.__config.MAX_PRELOAD_SONGS)
         fs = {loop.run_in_executor(executor, __download_func, song)}

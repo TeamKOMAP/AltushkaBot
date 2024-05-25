@@ -1,15 +1,14 @@
 from asyncio import AbstractEventLoop
 from discord import Guild, Status, Game, Message
 from discord.ext.commands.errors import CommandNotFound, MissingRequiredArgument
-from Config.Configs import AConfigs
+from Configs.Configs import AConfigs
 from discord.ext.commands import Bot, Context
-from Config.Messages import Messages
-from Config.Embeds import AEmbeds
+from Configs.Messages import Messages
+from Configs.Embeds import AEmbeds
 
 
 class AltushkaBot(Bot):
     def __init__(self, listingSlash: bool = False, *args, **kwargs):
-        """If listing Slash is False then the process is just a Player Process, should not interact with discord commands"""
         super().__init__(*args, **kwargs)
         self.__listingSlash = listingSlash
         self.__configs = AConfigs()
@@ -22,7 +21,7 @@ class AltushkaBot(Bot):
         return self.__listingSlash
 
     def startBot(self) -> None:
-        """Blocking function that will start the bot"""
+        """Функция блокировки, которая запустит бота"""
         if self.__configs.BOT_TOKEN == '':
             print('DEVELOPER NOTE -> Token not found')
             exit()
@@ -30,23 +29,23 @@ class AltushkaBot(Bot):
         super().run(self.__configs.BOT_TOKEN, reconnect=True)
 
     async def startBotCoro(self, loop: AbstractEventLoop) -> None:
-        """Start a bot coroutine, does not wait for connection to be established"""
+        """Запустить сопрограмму бота, не ждет установления соединения"""
         task = loop.create_task(self.__login())
         await task
         loop.create_task(self.__connect())
 
     async def __login(self):
-        """Coroutine to login the Bot in discord"""
+        """Сопрограмма для входа в бот в Discord"""
         await self.login(token=self.__configs.BOT_TOKEN)
 
     async def __connect(self):
-        """Coroutine to connect the Bot in discord"""
+        """Сопрограмма для подключения бота в Discord"""
         await self.connect(reconnect=True)
 
     async def on_ready(self):
         if self.__listingSlash:
             print(self.__messages.STARTUP_MESSAGE)
-        await self.change_presence(status=Status.online, activity=Game(name=f"Альтушка для скуфа | {self.__configs.BOT_PREFIX}play"))
+        await self.change_presence(status=Status.online, activity=Game(name=f"Альтушка для скуфа | {self.__configs.BOT_PREFIX}help"))
         # статус бота формата "Играет в name"
         if self.__listingSlash:
             print(self.__messages.STARTUP_COMPLETE_MESSAGE)

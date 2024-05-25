@@ -1,15 +1,15 @@
 import asyncio
 import traceback
 from typing import List, Union
-from Config.Exceptions import DownloadingError, InvalidInput, AltError
+from Configs.Exceptions import DownloadingError, InvalidInput, AltError
 from discord.ext.commands import Context
 from Handlers.AbstractHandler import AbstractHandler
-from Config.Exceptions import ImpossibleMove, UnknownError
-from Handlers.HandlerResponse import HandlerResponse
+from Configs.Exceptions import ImpossibleMove, UnknownError
+from Handlers.HandlerReply import HandlerResponse
 from Music.Downloader import Downloader
 from Music.Searcher import Searcher
 from Music.Song import Song
-from Parallelism.AbstractProcessManager import AbstractPlayersManager
+from Parallelism.AbstractProcessMngr import AbstractPlayersManager
 from Parallelism.Commands import ACommands, ACommandsType
 from Music.AltushkaBot import AltushkaBot
 from discord import Interaction

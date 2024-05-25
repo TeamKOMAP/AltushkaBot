@@ -1,6 +1,6 @@
 from collections import deque
 from typing import List
-from Config.Configs import AConfigs
+from Configs.Configs import AConfigs
 from Music.Song import Song
 import random
 
@@ -75,12 +75,12 @@ class Playlist:
                     self.__songs_history.appendleft(played_song)
 
                 if len(self.__songs_history) > self.__configs.MAX_SONGS_HISTORY:
-                    self.__songs_history.pop()  # Remove the older
+                    self.__songs_history.pop()  # удаление старого
 
-            elif self.__looping_one:  # Insert the current song to play again
+            elif self.__looping_one:  # Вставка текущей песни для того чтобы воспроизвести ее снова
                 self.__queue.appendleft(played_song)
 
-            elif self.__looping_all:  # Insert the current song in the end of queue
+            elif self.__looping_all:  # Вставка текущей песни в конец очереди
                 self.__queue.append(played_song)
 
         # Get the new song

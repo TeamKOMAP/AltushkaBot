@@ -1,6 +1,6 @@
 import deezer
-from Config.Exceptions import DeezerError
-from Config.Messages import DeezerMessages
+from Configs.Exceptions import DeezerError
+from Configs.Messages import DeezerMessages
 
 
 class DeezerSearcher:

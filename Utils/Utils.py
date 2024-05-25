@@ -1,6 +1,6 @@
 import re
 import asyncio
-from Config.Configs import AConfigs
+from Configs.Configs import AConfigs
 from functools import wraps, partial
 
 config = AConfigs()

@@ -1,7 +1,7 @@
 from UI.Views.AbstractView import AbstractView
 from UI.Buttons.AbstractItem import AbstractItem
 from Music.AltushkaBot import AltushkaBot
-from Config.Emojis import AEmojis
+from Configs.Emojis import AEmojis
 from discord import Message
 from discord.ui import View
 from typing import List
@@ -11,8 +11,8 @@ emojis = AEmojis()
 
 class BasicView(View, AbstractView):
     """
-    View class that inherits from the Discord View Class, managing a list of Buttons
-    and the message that holds this View.
+    Класс представления, наследуемый от класса представления Discord, управляющий списком кнопок.
+    и сообщением, содержащим это представление.
     """
 
     def __init__(self, bot: AltushkaBot, buttons: List[AbstractItem], timeout: float = 6000):

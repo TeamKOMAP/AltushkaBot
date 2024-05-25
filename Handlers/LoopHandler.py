@@ -1,11 +1,11 @@
 from discord.ext.commands import Context
 from Music.AltushkaBot import AltushkaBot
 from Handlers.AbstractHandler import AbstractHandler
-from Handlers.HandlerResponse import HandlerResponse
-from Config.Exceptions import BadCommandUsage
+from Handlers.HandlerReply import HandlerResponse
+from Configs.Exceptions import BadCommandUsage
 from typing import Union
 from discord import Interaction
-from Parallelism.AbstractProcessManager import AbstractPlayersManager
+from Parallelism.AbstractProcessMngr import AbstractPlayersManager
 
 
 class LoopHandler(AbstractHandler):

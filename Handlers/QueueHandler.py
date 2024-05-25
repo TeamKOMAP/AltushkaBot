@@ -1,10 +1,10 @@
 from discord.ext.commands import Context
-from Config.Exceptions import InvalidIndex
+from Configs.Exceptions import InvalidIndex
 from Handlers.AbstractHandler import AbstractHandler
-from Handlers.HandlerResponse import HandlerResponse
-from Handlers.JumpMusicHandler import JumpMusicHandler
+from Handlers.HandlerReply import HandlerResponse
+from Handlers.MoveMusicHandler import MoveMusicHandler
 from Messages.MessagesCategory import MessagesCategory
-from Parallelism.AbstractProcessManager import AbstractPlayersManager
+from Parallelism.AbstractProcessMngr import AbstractPlayersManager
 from UI.Views.BasicView import BasicView
 from Utils.Utils import Utils
 from Music.AltushkaBot import AltushkaBot
@@ -12,9 +12,9 @@ from Music.Song import Song
 from Music.Playlist import Playlist
 from typing import List, Union
 from discord import Button, Interaction
-from UI.Buttons.CallbackButton import CallbackButton
-from UI.Buttons.PlaylistDropdown import PlaylistDropdown
-from Config.Emojis import AEmojis
+from UI.Buttons.CallbackButtons import CallbackButtons
+from UI.Buttons.FoldPlaylist import FoldPlaylist
+from Configs.Emojis import AEmojis
 
 
 class QueueHandler(AbstractHandler):
@@ -102,15 +102,15 @@ class QueueHandler(AbstractHandler):
         buttons = []
         if pageNumber > 0:
             prevPageNumber = pageNumber - 1
-            buttons.append(CallbackButton(self.bot, self.run, AEmojis().BACK, self.ctx.channel,
-                                          self.guild.id, MessagesCategory.QUEUE, "Предыдущая страница", pageNumber=prevPageNumber))
+            buttons.append(CallbackButtons(self.bot, self.run, AEmojis().BACK, self.ctx.channel,
+                                           self.guild.id, MessagesCategory.QUEUE, "Предыдущая страница", pageNumber=prevPageNumber))
 
         if pageNumber < len(songsPages) - 1:
             nextPageNumber = pageNumber + 1
-            buttons.append(CallbackButton(self.bot, self.run, AEmojis().SKIP, self.ctx.channel,
-                                          self.guild.id, MessagesCategory.QUEUE, "Следующая страница", pageNumber=nextPageNumber))
+            buttons.append(CallbackButtons(self.bot, self.run, AEmojis().SKIP, self.ctx.channel,
+                                           self.guild.id, MessagesCategory.QUEUE, "Следующая страница", pageNumber=nextPageNumber))
 
         return buttons
 
     def __createViewJumpButtons(self, playlist: Playlist) -> List[Button]:
-        return [PlaylistDropdown(self.bot, JumpMusicHandler, playlist, self.ctx.channel, self.guild.id, MessagesCategory.PLAYER)]
+        return [FoldPlaylist(self.bot, MoveMusicHandler, playlist, self.ctx.channel, self.guild.id, MessagesCategory.PLAYER)]

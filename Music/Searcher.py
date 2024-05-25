@@ -1,10 +1,10 @@
-from Config.Exceptions import DeezerError, InvalidInput, SpotifyError, AltError, YoutubeError
+from Configs.Exceptions import DeezerError, InvalidInput, SpotifyError, AltError, YoutubeError
 from Music.SpotifySearcher import SpotifySearch
 from Music.DeezerSearcher import DeezerSearcher
-from Utils.UrlAnalyzer import URLAnalyzer
-from Config.Messages import SearchMessages
+from Utils.UrlChecker import URLChecker
+from Configs.Messages import SearchMessages
 from Music.Downloader import Downloader
-from Music.Types import Provider
+from Music.Providers import Provider
 from Utils.Utils import Utils
 
 
@@ -39,7 +39,7 @@ class Searcher:
 
                 return musics
             except SpotifyError as error:
-                raise error  # Redirect already processed error
+                raise error  # Ошибка перенаправления уже обработана
             except Exception as e:
                 print(f'[Spotify Error] -> {e}')
                 raise SpotifyError(self.__messages.SPOTIFY_NOT_FOUND, self.__messages.GENERIC_TITLE)
@@ -53,7 +53,7 @@ class Searcher:
 
                 return musics
             except DeezerError as error:
-                raise error  # Redirect already processed error
+                raise error  # Ошибка перенаправления уже обработана
             except Exception as e:
                 print(f'[Deezer Error] -> {e}')
                 raise DeezerError(self.__messages.DEEZER_NOT_FOUND, self.__messages.GENERIC_TITLE)
@@ -62,12 +62,12 @@ class Searcher:
             return [track]
 
     def __cleanYoutubeInput(self, track: str) -> str:
-        trackAnalyzer = URLAnalyzer(track)
-        # Just ID and List arguments probably
+        trackAnalyzer = URLChecker(track)
+        # аргументы ID и List
         if trackAnalyzer.queryParamsQuant <= 2:
             return track
 
-        # Arguments used in Mix Youtube Playlists
+        # Аргументы, используемые в плейлистах Mix Youtube
         if 'start_radio' or 'index' in trackAnalyzer.queryParams.keys():
             return trackAnalyzer.getCleanedUrl()
 

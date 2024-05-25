@@ -1,7 +1,7 @@
 import asyncio
 from time import sleep, time
 from urllib.parse import parse_qs, urlparse
-from Music.AltushkaInit import AltushkaInit
+from Music.AltushkaBotInit import AltushkaBotInit
 from discord import PCMVolumeTransformer, VoiceClient
 from asyncio import AbstractEventLoop, Semaphore, Queue
 from multiprocessing import Process, RLock, Lock, Queue
@@ -10,7 +10,7 @@ from typing import Callable
 from discord import Guild, FFmpegPCMAudio, VoiceChannel
 from Music.Playlist import Playlist
 from Music.Song import Song
-from Config.Configs import AConfigs
+from Configs.Configs import AConfigs
 from Music.AltushkaBot import AltushkaBot
 from Music.Downloader import Downloader
 from Parallelism.Commands import ACommands, ACommandsType
@@ -29,7 +29,7 @@ class TimeoutClock:
         self.__task.cancel()
 
 class ProcessPlayer(Process):
-    """Process that will play songs, receive commands from the main process by a Queue"""
+    """Процесс, который будет воспроизводить песни, получает команды от основного процесса по очереди."""
 
     def __init__(self, name: str, playlist: Playlist, lock: Lock, queueToReceive: Queue,  queueToSend: Queue, guildID: int, voiceID: int) -> None:
         """
@@ -393,7 +393,7 @@ class ProcessPlayer(Process):
 
     async def __createBotInstance(self) -> AltushkaBot:
         """Load a new bot instance that should not be directly called."""
-        initializer = AltushkaInit(willListen=False)
+        initializer = AltushkaBotInit(willListen=False)
         bot = initializer.getBot()
 
         await bot.startBotCoro(self.__loop)

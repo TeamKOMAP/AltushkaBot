@@ -2,12 +2,12 @@ from abc import ABC, abstractmethod
 from typing import List, Union
 from discord.ext.commands import Context
 from discord import Client, Guild, ClientUser, Interaction, Member, User
-from Config.Messages import Messages
+from Configs.Messages import Messages
 from Music.AltushkaBot import AltushkaBot
-from Handlers.HandlerResponse import HandlerResponse
-from Config.Configs import AConfigs
-from Config.Helper import Helper
-from Config.Embeds import AEmbeds
+from Handlers.HandlerReply import HandlerResponse
+from Configs.Configs import AConfigs
+from Configs.Descriptions import Descriptions
+from Configs.Embeds import AEmbeds
 
 
 class AbstractHandler(ABC):
@@ -19,7 +19,7 @@ class AbstractHandler(ABC):
         self.__id = self.__bot_user.id
         self.__messages = Messages()
         self.__config = AConfigs()
-        self.__helper = Helper()
+        self.__helper = Descriptions()
         self.__embeds = AEmbeds()
         self.__bot_member: Member = self.__get_member()
         if isinstance(ctx, Context):
@@ -64,7 +64,7 @@ class AbstractHandler(ABC):
         return self.__messages
 
     @property
-    def helper(self) -> Helper:
+    def helper(self) -> Descriptions:
         return self.__helper
 
     @property

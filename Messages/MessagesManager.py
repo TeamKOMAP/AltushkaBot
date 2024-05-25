@@ -1,27 +1,27 @@
 from typing import Dict, List
-from Config.Singleton import Singleton
+from Configs.Singleton import Singleton
 from UI.Views.AbstractView import AbstractView
 from Messages.MessagesCategory import MessagesCategory
-from Messages.DiscordMessages import AAbstractMessage
+from Messages.DcMessages import AAbstractMessage
 import traceback
 
 
 class MessagesManager(Singleton):
     def __init__(self) -> None:
         if not super().created:
-            # For each guild, and for each category, there will be a list of messages
+            # Для каждой гильдии и каждой категории будет список сообщений.
             self.__guildsMessages: Dict[int, Dict[MessagesCategory, List[AAbstractMessage]]] = {}
-            # Will, for each message, store the AbstractView that controls it
+            # control that
             self.__messagesViews: Dict[AAbstractMessage, AbstractView] = {}
 
     def addMessage(self, guildID: int, category: MessagesCategory, message: AAbstractMessage, view: AbstractView = None) -> None:
         if message is None:
             return
 
-        # If guild not exists create Dict
+        # Если гильдия не существует, создайте Dict
         if guildID not in self.__guildsMessages.keys():
             self.__guildsMessages[guildID] = {}
-        # If category not in guild yet, add
+        # Если категории еще нет в гильдии, добавьте
         if category not in self.__guildsMessages[guildID].keys():
             self.__guildsMessages[guildID][category] = []
 
@@ -34,23 +34,23 @@ class MessagesManager(Singleton):
         if message is None:
             return
 
-        # If guild not exists create Dict
+        # Если гильдия не существует, создайте Dict
         if guildID not in self.__guildsMessages.keys():
             self.__guildsMessages[guildID] = {}
-        # If category not in guild yet, add
+        # Если категории еще нет в гильдии, добавьте
         if category not in self.__guildsMessages[guildID].keys():
             self.__guildsMessages[guildID][category] = []
 
         sendedMessages = self.__guildsMessages[guildID][category]
 
-        # Delete sended all messages of this category
+        # Удалить отправленные все сообщения этой категории
         for previousMessage in sendedMessages:
             await self.__deleteMessage(previousMessage)
 
-        # Create a new list with only the new message
+        # Создайте новый список только с новым сообщением.
         self.__guildsMessages[guildID][category] = [message]
 
-        # Store the view of this message
+        # Сохранить вид этого сообщения
         if view is not None and isinstance(view, AbstractView):
             self.__messagesViews[message] = view
 
@@ -69,7 +69,7 @@ class MessagesManager(Singleton):
 
     async def __deleteMessage(self, message: AAbstractMessage) -> None:
         try:
-            # If there is a view for this message delete the key
+            # Если есть просмотр для этого сообщения, удаляет ключ
             if message in self.__messagesViews.keys():
                 messageView = self.__messagesViews.pop(message)
                 messageView.stopView()

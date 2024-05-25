@@ -1,7 +1,7 @@
 from discord.ext.commands import Context
 from Handlers.AbstractHandler import AbstractHandler
-from Handlers.HandlerResponse import HandlerResponse
-from Parallelism.AbstractProcessManager import AbstractPlayersManager
+from Handlers.HandlerReply import HandlerResponse
+from Parallelism.AbstractProcessMngr import AbstractPlayersManager
 from Parallelism.Commands import ACommands, ACommandsType
 from Music.AltushkaBot import AltushkaBot
 from typing import Union

@@ -9,7 +9,7 @@ from typing import Callable
 from discord import Guild, FFmpegPCMAudio, VoiceChannel
 from Music.Playlist import Playlist
 from Music.Song import Song
-from Config.Configs import AConfigs
+from Configs.Configs import AConfigs
 from Music.AltushkaBot import AltushkaBot
 from Music.Downloader import Downloader
 from Parallelism.Commands import ACommands, ACommandsType
