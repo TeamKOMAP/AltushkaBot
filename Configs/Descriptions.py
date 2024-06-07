@@ -51,6 +51,8 @@ class Descriptions(Singleton):
             self.HELP_CHOOSE_LONG = 'Выбирает случайный объект, указанный в аргументе.\n\nТребования: Объекты должны быть разделены запятой.\nАргументы: Сколько угодно аргументов.'
             self.HELP_CARA = 'Возвращает Komaru или Komugi.'
             self.HELP_CARA_LONG = 'Возвращает Komaru или Komugi.'
+            self.HELP_PURGE = 'Удаляет указанное количество сообщений'
+            self.HELP_PURGE_LONG = 'Удаляет указанное в аргументе количество сообщений.\nАргументы: Любое натуральное число от 1'
 
             self.SLASH_QUEUE_DESCRIPTION = f'На странице может быть только {config.MAX_SONGS_IN_PAGE} треков'
             self.SLASH_MOVE_HELP = 'Перемещает трек в очереди с позиции 1 на позицию 2.'

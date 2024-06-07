@@ -8,7 +8,7 @@ class Messages(Singleton):
         if not super().created:
             self.__emojis = AEmojis()
             configs = AConfigs()
-            self.STARTUP_MESSAGE = 'Starting Altushka...'
+            self.STARTUP_MESSAGE = 'Альтушка прибыла!'
             self.STARTUP_COMPLETE_MESSAGE = 'Altushka status: online'
 
             self.SONGINFO_UPLOADER = "Автор: "

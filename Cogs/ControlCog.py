@@ -21,7 +21,7 @@ class ControlCog(Cog):
                       'skip', 'play', 'queue', 'clear',
                       'np', 'shuffle', 'move', 'remove',
                       'reset', 'prev', 'history', 'volume'],
-            'RANDOM': ['choose', 'cara', 'random', 'purge']
+            'RANDOM': ['choose', 'Komaru', 'random']
 
         }
 

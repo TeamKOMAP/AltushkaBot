@@ -61,7 +61,7 @@ class RandomCog(Cog):
             embed = self.__embeds.BAD_CHOOSE_USE()
             await ctx.send(embed=embed)
 
-    @command(name='purge', help=helper.HELP_INVITE, description=helper.HELP_INVITE_LONG,
+    @command(name='purge', help=helper.HELP_PURGE, description=helper.HELP_PURGE_LONG,
              aliasses=["pur", "delete", "del"])
     async def purge(self, ctx: Context, arg: int) -> None:
         if not ctx.author.guild_permissions.manage_messages:

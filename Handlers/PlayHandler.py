@@ -29,12 +29,12 @@ class PlayHandler(AbstractHandler):
             embed = self.embeds.NO_CHANNEL()
             return HandlerResponse(self.ctx, embed, error)
         try:
-            # Search for musics and get the name of each song
+            # Поиск музыки и вывод названия трека
             musicsInfo = await self.__searcher.search(track)
             if musicsInfo is None or len(musicsInfo) == 0:
                 raise InvalidInput(self.messages.INVALID_INPUT, self.messages.ERROR_TITLE)
 
-            # If there is no executing player for the guild then we create the player
+            # Создание нового плеера при его отсутсвии на сервере
             playersManager: AbstractPlayersManager = self.config.getPlayersManager()
             if not playersManager.verifyIfPlayerExists(self.guild):
                 playersManager.createPlayerForGuild(self.guild, self.ctx)
